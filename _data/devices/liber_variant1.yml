@@ -1,6 +1,6 @@
 architecture: arm64
 battery: {capacity: 5000, removable: False, tech: 'Li-Po'}
-before_install: {instructions: 'needs_specific_android_fw', version: '11'}
+before_install: {instructions: 'needs_specific_android_fw', lineage_version: 19.1, version: '11'}
 before_lineage_install: ab_copy_partitions
 bluetooth: {profiles: [A2DP + aptX HD], spec: '5'}
 cameras:
@@ -31,7 +31,7 @@ recovery_partition_name: recovery
 recovery_reboot: fastboot_menu
 release: 2020-06
 screen: {resolution: '1080x2340', size: 6.5, technology: 'IPS LCD'}
-sdcard: {sizeMax: '1 TB', slot: 'hybrid'}
+sdcard: {size_max: '1 TB', slot: 'hybrid'}
 soc: Qualcomm SM7150-AA Snapdragon 730
 storage: 128 GB UFS 2.1
 tree: android_device_motorola_liber

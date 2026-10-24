@@ -127,7 +127,7 @@ The following list will mention Model-Value pairs where applicable.
   {{ properties.install_method.enum | join: ", " }}
   ```
 
-* `kernel`: The repo name of the kernel - for example, `android_kernel_oneplus_msm8974`.
+* `kernel`: Use the format `{repo: <repository name>, version: '<major.minor>'}`.
 * `network`: The frequencies and channels for the various network technologies. You can look them up [here](https://www.frequencycheck.com/models/). Keep the non-available technologies empty.
 * `peripherals`: A list of peripherals available on the device, can be any of the following list:
 
@@ -181,8 +181,8 @@ There are some optional properties which you might not need, but in case you do,
   ```
   required_bootloader: [Version1, Version2]
   ```
-* `sdcard`: Format: `{maxSize: '<size>'}` or `{maxSize: '<size>', slot: '<slot>'}` with
-  - `size` being a string like `32 GB` (checked against a pattern `{{ definitions.sdcard_data.properties.sizeMax.pattern }}`) and
+* `sdcard`: Format: `{size_max: '<size>'}` or `{size_max: '<size>', slot: '<slot>'}` with
+  - `size` being a string like `32 GB` (checked against a pattern `{{ definitions.sdcard_data.properties.size_max.pattern }}`) and
   - `slot` being one of
     ```
     {{ definitions.sdcard_data.properties.slot.enum | join: ", " }}

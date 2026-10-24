@@ -13,11 +13,24 @@ From the root of your Android tree, run these commands, altering the `subject` l
 ```
 subject='/C=US/ST=California/L=Mountain View/O=Android/OU=Android/CN=Android/emailAddress=android@android.com'
 mkdir ~/.android-certs
-for cert in bluetooth cyngn-app media networkstack platform releasekey sdk_sandbox shared testcert testkey verity; do \
+for cert in bluetooth cyngn-app media networkstack nfc platform releasekey sdk_sandbox shared testcert testkey verity; do \
     ./development/tools/make_key ~/.android-certs/$cert "$subject"; \
 done
 ```
 
+{% capture apexapks %}
+AdServicesApk
+FederatedCompute
+HalfSheetUX
+HealthConnectBackupRestore
+HealthConnectController
+OsuLogin
+SafetyCenterResources
+ServiceConnectivityResources
+ServiceUwbResources
+ServiceWifiResources
+WifiDialog
+{% endcapture %}
 {% capture apexes %}
 com.android.adbd
 com.android.adservices
@@ -33,6 +46,11 @@ com.android.connectivity.resources
 com.android.conscrypt
 com.android.devicelock
 com.android.extservices
+com.android.graphics.pdf
+com.android.hardware.biometrics.face.virtual
+com.android.hardware.biometrics.fingerprint.virtual
+com.android.hardware.boot
+com.android.hardware.cas
 com.android.hardware.wifi
 com.android.healthfitness
 com.android.hotspot2.osulogin
@@ -62,13 +80,16 @@ com.android.uwb
 com.android.uwb.resources
 com.android.virt
 com.android.vndk.current
+com.android.vndk.current.on_vendor
 com.android.wifi
 com.android.wifi.dialog
 com.android.wifi.resources
+com.google.pixel.camera.hal
 com.google.pixel.vibrator.hal
 com.qorvo.uwb
 {% endcapture %}
-{% assign apexes = apexes | newline_to_br | strip_newlines | replace: "<br />", " " | strip %}
+{% assign apexapks = apexapks | newline_to_br | strip_newlines | replace: "<br />", " " | strip | split: " " %}
+{% assign apexes = apexes | newline_to_br | strip_newlines | replace: "<br />", " " | strip | split: " " %}
 
 LineageOS 19.1 and above will also require APEXes be re-signed.
 Each APEX file is signed with two keys: one for the mini file system image within an APEX and the other for the entire APEX.
@@ -78,9 +99,26 @@ file and edit to use SHA256_RSA4096.
 cp ./development/tools/make_key ~/.android-certs/
 sed -i 's|2048|4096|g' ~/.android-certs/make_key
 ```
-Then generate the APEX keys altering the `subject` line to reflect your information. You will need to enter twice the passphrase for each APEX.
+Then generate the APEX keys altering the `subject` line below to reflect your information.
+
+{% include alerts/note.html content="Signing keys are usually password protected to ensure if they are accessed by unauthorized individuals they cannot be used to sign packages without knowledge of the password as well.  In this case to sign a LineageOS build, it requires you to setup a password file as described later on this page, which can be securely stored and retrieved as part of your build process.  Alternatively you can create the signing keys without a password by pressing enter when prompted by `make_key`, however this leaves your private keys unprotected if accessed by unauthorized individuals and you should take precautions to protect them and your build system from unauthorized access." %}
+
+### Generate keys without a password
+You will need to enter the blank passphrase twice for each APEX key generated.
 ```
-for apex in {{ apexes }}; do \
+for apex in {{ apexes | join: " " }}; do \
+    subject='/C=US/ST=California/L=Mountain View/O=Android/OU=Android/CN='$apex'/emailAddress=android@android.com'; \
+    ~/.android-certs/make_key ~/.android-certs/$apex "$subject"; \
+    openssl pkcs8 -in ~/.android-certs/$apex.pk8 -inform DER -nocrypt -out ~/.android-certs/$apex.pem; \
+done
+```
+
+You should keep these keys safe.
+
+### Generate keys with a password
+You will need to enter the passphrase twice for each APEX key generated.
+```
+for apex in {{ apexes | join: " " }}; do \
     subject='/C=US/ST=California/L=Mountain View/O=Android/OU=Android/CN='$apex'/emailAddress=android@android.com'; \
     ~/.android-certs/make_key ~/.android-certs/$apex "$subject"; \
     openssl pkcs8 -in ~/.android-certs/$apex.pk8 -inform DER -out ~/.android-certs/$apex.pem; \
@@ -131,11 +169,16 @@ Signing process for LineageOS versions 19.1 and above:
 ```
 croot
 sign_target_files_apks -o -d ~/.android-certs \
+    {%- for apexapk in apexapks %}
+    --extra_apks {{ apexapk }}.apk=$HOME/.android-certs/releasekey \
+    {%- endfor %}
     {%- for apex in apexes %}
     --extra_apks {{ apex }}.apex=$HOME/.android-certs/{{ apex }} \
+    {%- endfor %}
+    {%- for apex in apexes %}
     --extra_apex_payload_key {{ apex }}.apex=$HOME/.android-certs/{{ apex }}.pem \
     {%- endfor %}
-    $OUT/obj/PACKAGING/target_files_intermediates/*-target_files-*.zip \
+    $OUT/obj/PACKAGING/target_files_intermediates/*-target_files*.zip \
     signed-target_files.zip
 ```
 
@@ -247,7 +290,7 @@ a build with the new keys. The script is available under
 `./lineage/scripts/key-migration/migration.sh`
 
 The script can also be made into a zip, by inserting it into a zip similar to
-[this](https://blunden.se/migration). This zip has the script placed in 
+[this](https://blunden.se/migration). This zip has the script placed in
 `META-INF/com/google/android/update-binary` with some additions to print status messages to
 the recovery.
 

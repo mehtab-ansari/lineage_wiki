@@ -1,6 +1,6 @@
 architecture: arm64
 battery: {capacity: 4000, removable: False, tech: 'Li-Po'}
-before_install: {instructions: 'needs_specific_android_fw', version: '11'}
+before_install: {instructions: 'needs_specific_android_fw', lineage_version: 18.1, version: '11'}
 bluetooth: {profiles: [A2DP], spec: '4.2'}
 cameras:
   - {flash: 'Dual LED', info: '48 MP (or 12 MP)'}
@@ -19,7 +19,7 @@ gpu: Qualcomm Adreno 610
 image: ginkgo.png
 install_method: fastboot_xiaomi
 kernel: {repo: android_kernel_xiaomi_sm6125, version: '4.14'}
-maintainers: [DarkJoker360, danascape]
+maintainers: []
 name: 'Redmi Note 8'
 network: [2G GSM, 3G UMTS, 4G LTE]
 peripherals: [A-GPS, Accelerometer, Barometer, Compass, Dual SIM, Fingerprint reader, GLONASS, GPS, Gyroscope, IR blaster, Light sensor, Pedometer, Proximity sensor, USB OTG]
@@ -28,7 +28,7 @@ recovery_boot: With the device powered off, hold <kbd>Volume Up</kbd> + <kbd>Pow
 recovery_partition_name: recovery
 release: 2019-08
 screen: {resolution: '1080x2340', size: 6.3, technology: 'IPS LCD'}
-sdcard: {sizeMax: '256 GB'}
+sdcard: {size_max: '256 GB'}
 soc: Qualcomm SDM665 Snapdragon 665
 storage: 32/64/128 GB
 tree: android_device_xiaomi_ginkgo

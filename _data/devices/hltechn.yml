@@ -16,7 +16,7 @@ gpu: Qualcomm Adreno 330
 image: hlte.png
 install_method: odin
 kernel: {repo: android_kernel_samsung_msm8974, version: '3.4'}
-maintainers: [haggertk, npjohnson]
+maintainers: []
 models: [SM-N9008V]
 name: Galaxy Note 3 LTE (N9008V)
 network: [2G GSM, 3G UMTS, 4G LTE]
@@ -28,8 +28,8 @@ recovery_boot: With the device powered off, hold <kbd>Volume Up</kbd> + <kbd>Hom
 recovery_partition_name: recovery
 release: 2013-09
 screen: {resolution: '1080x1920', size: 5.7, technology: 'Super AMOLED'}
-sdcard: {sizeMax: '64 GB'}
-soc: Qualcomm MSM8974AB Snapdragon 801
+sdcard: {size_max: '64 GB'}
+soc: Qualcomm MSM8974 Snapdragon 800
 storage: 16/32/64 GB
 tree: android_device_samsung_hltechn
 type: phone

@@ -15,6 +15,7 @@ download_boot: With the device powered off, hold <kbd>Volume Up</kbd> + <kbd>Pow
 gpu: Qualcomm Adreno 509
 image: X00TD.png
 install_method: fastboot_zenfone
+is_unlockable: false
 kernel: {repo: android_kernel_asus_sdm660, version: '4.4'}
 maintainers: [Vivekachooz]
 name: Zenfone Max Pro M1
@@ -25,7 +26,7 @@ recovery_boot: With the device powered off, hold <kbd>Volume Down</kbd> + <kbd>P
 recovery_partition_name: recovery
 release: 2018-05
 screen: {resolution: '2160x1080', size: 5.99, technology: 'IPS LCD'}
-sdcard: {sizeMax: '2 TB'}
+sdcard: {size_max: '2 TB'}
 soc: Qualcomm SDM636 Snapdragon 636
 storage: 32/64 GB
 tree: android_device_asus_X00TD

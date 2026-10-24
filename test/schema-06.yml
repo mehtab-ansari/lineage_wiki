@@ -37,6 +37,8 @@ definitions:
     properties:
       instructions:
         type: string
+      lineage_version:
+        type: number
       ships_fw:
         description: Defines whether the device ships firmware
         type: boolean
@@ -106,6 +108,7 @@ definitions:
       - ARM Mali-G78 MP20
       - ARM Mali-G710 MC10
       - ARM Mali-G710 MP7
+      - ARM Mali-G715s MC10
       - ARM Mali-T604 MP4
       - ARM Mali-T628 MP6
       - ARM Mali-T720 MP2
@@ -155,6 +158,7 @@ definitions:
       - Qualcomm Adreno 640
       - Qualcomm Adreno 642
       - Qualcomm Adreno 642L
+      - Qualcomm Adreno 643L
       - Qualcomm Adreno 650
       - Qualcomm Adreno 660
       - Qualcomm Adreno 675
@@ -219,6 +223,7 @@ definitions:
       - Dynamic AMOLED
       - Fluid AMOLED
       - Fluid 2.0 LTPO AMOLED
+      - Fluid 3.0 LTPO AMOLED
       - Optic AMOLED
       - Super AMOLED
       - Pentile RGBG AMOLED
@@ -239,7 +244,7 @@ definitions:
     additionalProperties: False
     description: The format required for the sdcard property
     properties:
-      sizeMax:
+      size_max:
         description: Maximum size for a sdcard
         pattern: '^(\d+ (GB|TB)( \([^)]*\)( or )?)?)+$'
         type: string
@@ -250,7 +255,7 @@ definitions:
           - hybrid
           - sim
     required:
-      - sizeMax
+      - size_max
     type: object
   soc_data:
     enum:
@@ -259,6 +264,7 @@ definitions:
       - Amlogic S905y3
       - Google Tensor GS101
       - Google Tensor GS201
+      - Google Tensor G3
       - HiSilicon Kirin 659
       - HiSilicon Kirin 970
       - Intel Atom Z2560
@@ -311,6 +317,7 @@ definitions:
       - Qualcomm MSM8996 Pro Snapdragon 821
       - Qualcomm MSM8996 Snapdragon 820
       - Qualcomm MSM8998 Snapdragon 835
+      - Qualcomm QCM6490
       - Qualcomm SDM429 Snapdragon 429
       - Qualcomm SDM439 Snapdragon 439
       - Qualcomm SDM630 Snapdragon 630
@@ -327,6 +334,7 @@ definitions:
       - Qualcomm SM6115 Snapdragon 662
       - Qualcomm SM6150 Snapdragon 675
       - Qualcomm SM6225 Snapdragon 680 4G
+      - Qualcomm SM6375 Snapdragon 695
       - Qualcomm SM7125 Snapdragon 720G
       - Qualcomm SM7150-AA Snapdragon 730
       - Qualcomm SM7150-AB Snapdragon 730G
@@ -386,6 +394,7 @@ definitions:
       - 18.1
       - 19.1
       - 20
+      - 21
     type: number
   valid_kernel_versions:
     enum:
@@ -428,6 +437,7 @@ definitions:
         - Compass
         - DP over USB-C
         - Depth Sensor
+        - Dock
         - Dot Projector
         - Dual SIM
         - Dual front speakers
@@ -454,8 +464,9 @@ definitions:
         - Hygrometer
         - IR blaster
         - IR camera
+        - IR receiver
         - Iceview Cases
-        - Infrared sensor
+        - Joycons
         - Light sensor
         - MHL
         - MHL 2.0
@@ -470,6 +481,7 @@ definitions:
         - Qi reverse wireless charging
         - Radar
         - RGB ambient light
+        - RJ45 Ethernet port
         - SNS integration
         - Sensor hub
         - Thermometer
@@ -486,10 +498,12 @@ definitions:
       - aux_cameras
       - dock
       - esim
+      - face_unlock
       - fde
       - hardware_encryption
       - ims
       - nfc
+      - usb
     type: string
 properties:
   architecture:
@@ -592,6 +606,7 @@ properties:
       - Cortex-A53 & Cortex-A53
       - Cortex-A53 & Cortex-A57
       - Cortex-A53 & Cortex-A72
+      - Cortex-A55
       - Cortex-A57
       - Cortex-A7
       - Cortex-A72
@@ -601,6 +616,7 @@ properties:
       - Cortex-A9
       - Cortex-X1 & Cortex-A76 & Cortex-A55
       - Cortex-X1 & Cortex-A78 & Cortex-A55
+      - Cortex-X3 & Cortex-A715 & Cortex-A510
       - Denver
       - Denver 2 & Cortex-A57
       - Exynos M1 & Cortex-A53
@@ -632,8 +648,10 @@ properties:
       - Kryo 560
       - Kryo 570
       - Kryo 585
+      - Kryo 660
       - Kryo 670
       - Kryo 680
+      - Kryo 780
   cpu_cores:
     "$id": "/properties/cpu_cores"
     minLength: 1
@@ -688,26 +706,12 @@ properties:
           - repartition
   gpu:
     "$id": "/properties/gpu"
-    oneOf:
-      - "$ref": "#/definitions/gpu_data"
-      - items:
-          "$id": "/properties/gpu/items"
-          "$ref": "#/definitions/gpu_data"
-        minItems: 2
-        type: array
-        uniqueItems: True
-      - description: Array of maps of model numbers to GPU data
-        examples:
-          - SM-9000A: Qualcomm Adreno 306
-          - SM-9000B: Qualcomm Adreno 405
-        items:
-          additionalProperties:
-            "$ref": "#/definitions/gpu_data"
-          description: Map of model number to gpu_data
-          type: object
-        type: array
-      - enum:
-          - None
+    items:
+      "$id": "/properties/gpu/items"
+      "$ref": "#/definitions/gpu_data"
+  has_no_usb:
+    "$id": "/properties/has_no_usb"
+    type: boolean
   image:
     "$id": "/properties/image"
     pattern: ^\w*\.(png|jpg)$
@@ -737,12 +741,11 @@ properties:
       - fastboot_xiaomi
       - fastboot_zenfone
       - heimdall
+      - nintendo
       - odin
+      - oor
   is_ab_device:
     "$id": "/properties/is_ab_device"
-    type: boolean
-  is_retrofit_dynamic_partitions:
-    "$id": "/properties/is_retrofit_dynamic_partitions"
     type: boolean
   is_unlockable:
     "$id": "/properties/is_unlockable"
@@ -759,7 +762,6 @@ properties:
         "$ref": "#/definitions/valid_kernel_versions"
         description: Kernel version
     required:
-      - repo
       - version
     type: object
   maintainers:
@@ -867,6 +869,7 @@ properties:
     enum:
       - Devkit
       - Handheld game console
+      - foldable
       - Set top box
       - phone
       - phone (slider)
@@ -897,6 +900,7 @@ properties:
       - Lenovo
       - Motorola
       - Nextbit
+      - Nintendo
       - Nokia
       - Nothing
       - Nubia
@@ -908,6 +912,7 @@ properties:
       - Realme
       - Samsung
       - SHIFT
+      - Solana
       - Sony
       - Walmart
       - Wileyfox
@@ -938,12 +943,14 @@ properties:
       - moto
       - motorola
       - nextbit
+      - nintendo
       - nokia
       - nothing
       - nubia
       - nvidia
       - oneplus
       - oppo
+      - osom
       - razer
       - realme
       - samsung
@@ -972,6 +979,7 @@ properties:
       - 802.11 a/b/g/n
       - 802.11 a/b/g/n/ac
       - 802.11 a/b/g/n/ac/ax
+      - 802.11 a/b/g/n/ac/ax/be
 required:
   - architecture
   - battery

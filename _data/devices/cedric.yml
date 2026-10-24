@@ -1,6 +1,6 @@
 architecture: arm64
 battery: {capacity: 2800, removable: True, tech: 'Li-Ion'}
-before_install: {instructions: 'needs_specific_android_fw', version: '8.1'}
+before_install: {instructions: 'needs_specific_android_fw', lineage_version: 17.1, version: '8.1'}
 bluetooth: {profiles: [A2DP], spec: '4.2'}
 cameras:
   - {flash: 'LED', info: '13 MP'}
@@ -16,7 +16,7 @@ gpu: Qualcomm Adreno 505
 image: cedric.png
 install_method: fastboot_motorola
 kernel: {repo: android_kernel_motorola_msm8953, version: '3.18'}
-maintainers: [Jarl-Penguin]
+maintainers: []
 models: [XT1670, XT1671, XT1672, XT1675, XT1676, XT1677]
 name: moto g5
 network: [2G GSM, 3G UMTS, 4G LTE]
@@ -27,7 +27,7 @@ recovery_partition_name: recovery
 recovery_reboot: fastboot_menu
 release: 2017-03
 screen: {resolution: '1920x1080', size: 5, technology: 'IPS LCD'}
-sdcard: {sizeMax: '256 GB'}
+sdcard: {size_max: '256 GB'}
 soc: Qualcomm MSM8937 Snapdragon 430
 storage: 16/32 GB
 tree: android_device_motorola_cedric

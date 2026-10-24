@@ -23,8 +23,7 @@ The preferred method of installing a custom recovery is through Download Mode{% 
 {{ custom_root_instructions }}
 {% endif %}
 
-## Installing a custom recovery using `Odin`
-
+{%- capture install_content %}
 {% include alerts/note.html content="If this device's install instructions already had you download Odin/Enable OEM Unlocking earlier in the installation process, you can skip the steps for enabling OEM Unlock, as well as for downloading and extracting the drivers and Odin." %}
 
 {% unless device.no_oem_unlock_switch %}
@@ -40,7 +39,7 @@ The preferred method of installing a custom recovery is through Download Mode{% 
 {%- elsif device.maintainers != empty %}
 {%- assign is_lineage_recovery = true %}
 2. Download [Lineage Recovery](https://download.lineageos.org/devices/{{ custom_recovery_codename }}). Simply download the latest recovery file, named `{{ device.recovery_partition_name }}.img`
-3. Open a Command Prompt in the folder where the file was downloaded, and TAR the file by running `tar --format=ustar -cvf {{ device.recovery_partition_name }}.tar {{ device.recovery_partition_name }}.img`.
+3. Open a Command Prompt in the folder where the file was downloaded, and TAR the file by running `tar --format=ustar -cvf {{ device.recovery_partition_name }}.tar {{ device.recovery_partition_name }}.img`
     {% capture content -%}
     Make sure to not accidentally name the file `{{ device.recovery_partition_name }}.img.img` when file name extensions are hidden.
     {%- endcapture -%}
@@ -49,7 +48,7 @@ The preferred method of installing a custom recovery is through Download Mode{% 
 {%- else %}
 {%- assign is_lineage_recovery = true %}
 2. [Build]({{ device | device_link: "/build" | relative_url }}) a LineageOS installation package. The recovery will be built as part of it!
-3. Locate the built `{{ device.recovery_partition_name }}.img` file, open a Command Prompt in the folder where the file was found, and TAR the file by running `tar --format=ustar -cvf {{ device.recovery_partition_name }}.tar {{ device.recovery_partition_name }}.img`.
+3. Locate the built `{{ device.recovery_partition_name }}.img` file, open a Command Prompt in the folder where the file was found, and TAR the file by running `tar --format=ustar -cvf {{ device.recovery_partition_name }}.tar {{ device.recovery_partition_name }}.img`
     {% include alerts/tip.html content="You can open a command prompt in any folder by right-clicking on empty space while holding Shift and selecting \"Open Command Prompt here\" or \"Open PowerShell window here\" from the context menu." %}
 {%- endif %}
     {% include alerts/important.html content="Other recoveries may not work for installation or updates. We strongly recommend to use the one linked above!" %}
@@ -59,7 +58,7 @@ The preferred method of installing a custom recovery is through Download Mode{% 
 4. Download and install the necessary drivers.
     * Download the newest Samsung drivers from [here](https://developer.samsung.com/mobile/android-usb-driver.html). You will need to create a Samsung account and login to download them.
     * Install `SAMSUNG_USB_Driver_for_Mobile_Phones.exe`.
-5. Download [this](https://androidfilehost.com/?fid=4349826312261712202) version of Odin.
+5. Download [this](https://undocumented.software/Odin_3.13.1.zip) version of Odin.
 6. Extract "Odin_3.13.1.zip".
 7. Run `Odin3 v3.13.1` found in the newly  extracted "Odin_3.13.1" folder.
 8. Check in the top left of the Odin window that you see a valid device, it will show up as something like `COM0`.
@@ -75,3 +74,11 @@ The preferred method of installing a custom recovery is through Download Mode{% 
     * {{ device.recovery_boot }}
     {% include alerts/note.html content="Be sure to reboot into recovery immediately after installing the custom recovery. If you don't the custom recovery will be overwritten on boot." %}
 {%- include snippets/recovery_logo_note.md %}
+{%- endcapture %}
+
+{%- if is_lineage_recovery %}
+## Installing Lineage Recovery using `Odin`
+{%- else %}
+## Installing a custom recovery using `Odin`
+{%- endif %}
+{{ install_content }}

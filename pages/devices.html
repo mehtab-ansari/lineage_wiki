@@ -33,6 +33,12 @@ function applyFilters() {
       return !value || device.maintainers.length > 0;
     },
 
+    // Global :: Show devices without official BL unlock method
+    (device) => {
+      let value = checkBoxValue("is_unlockable");
+      return !value || device.is_unlockable !== false;
+    },
+
     // Architecture
     (device) => {
       let value = checkBoxValues("architectures");
@@ -225,15 +231,9 @@ function showFilters() {
 {%- assign class="" %}
 {%- endif -%}
 
-{%- if jekyll.environment == "development" or jekyll.environment == "production" %}
-{%- capture imagePath %}{{ site.baseurl }}/images/devices/small/{{ device.image }}{% endcapture %}
-{%- else %}
-{%- capture imagePath %}{{ "https://raw.githubusercontent.com/LineageOS/lineage_wiki/" | append: jekyll.environment | append: "/images/devices/small/" | append: device.image }}{% endcapture %}
-{%- endif %}
-
 <div class="item {{ class }}" onClick="location.href='{{ url }}'" data-codename="{{ device.codename }}" data-variant="{{ device.variant }}" data-url="{{ url }}">
   <div class="deviceimage">
-    <a href="{{ url }}"><img src="{{ imagePath }}" alt="device-image for {{ device.codename }}" loading="lazy" /></a>
+    <a href="{{ url }}"><img src="{{ "images/devices/small/" | append: device.image | relative_url }}" alt="device-image for {{ device.codename }}" loading="lazy" /></a>
   </div>
   <div class="name">
     <a href="{{ url }}">
@@ -279,15 +279,10 @@ function showFilters() {
 
 {%- if sorted[forloop.index].vendor != lastVendor %}
 
-{%- if jekyll.environment == "development" or jekyll.environment == "production" %}
-{%- capture imagePath %}{{ site.baseurl }}/images/devices/small/unknown.png{% endcapture %}
-{%- else %}
-{%- capture imagePath %}{{ "https://raw.githubusercontent.com/LineageOS/lineage_wiki/" | append: jekyll.environment | append: "/images/devices/small/unknown.png" }}{% endcapture %}
-{%- endif %}
 {%- assign url = "devices/unknown/" | relative_url %}
 <div class="item" onClick="location.href='{{ url }}'" data-variant="unknown" data-url="{{ url }}">
   <div class="deviceimage">
-    <a href="{{ url }}"><img src="{{ imagePath }}" alt="unknown device" loading="lazy" /></a>
+    <a href="{{ url }}"><img src="{{ "images/devices/small/unknown.png" | relative_url }}" alt="unknown device" loading="lazy" /></a>
   </div>
   <div class="name">
     <a href="{{ url }}">
@@ -320,6 +315,15 @@ function showFilters() {
           <label class="form-check-label">
             <input class="form-check-input no-ripple" type="checkbox" checked>
             Hide discontinued devices
+            <span class="form-check-sign no-ripple">
+                <span class="check" />
+            </span>
+          </label>
+        </div>
+        <div class="form-check" data-filter="is_unlockable">
+          <label class="form-check-label">
+            <input class="form-check-input no-ripple" type="checkbox">
+            Hide devices without official BL unlock method
             <span class="form-check-sign no-ripple">
                 <span class="check" />
             </span>

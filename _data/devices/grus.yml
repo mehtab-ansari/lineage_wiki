@@ -1,6 +1,6 @@
 architecture: arm64
 battery: {capacity: 3070, removable: False, tech: 'Li-Po'}
-before_install: {instructions: 'needs_specific_android_fw', version: '11'}
+before_install: {instructions: 'needs_specific_android_fw', lineage_version: 19.1, version: '11'}
 bluetooth: {profiles: [A2DP + aptX HD], spec: '5'}
 cameras:
   - {flash: 'Dual LED', info: '48 MP'}
@@ -11,13 +11,12 @@ codename: grus
 cpu: Kryo 360
 cpu_cores: '8'
 cpu_freq: 2 x 2.2 GHz + 6 x 1.7 GHz
-current_branch: 20
+current_branch: 21
 dimensions: {depth: 7.5, height: 147.5, width: 70.5}
 download_boot: With the device powered off, hold <kbd>Volume Down</kbd> + <kbd>Power</kbd>. Keep holding both buttons until the word "FASTBOOT" appears on the screen, then release.
 gpu: Qualcomm Adreno 616
 image: grus.png
 install_method: fastboot_xiaomi
-is_retrofit_dynamic_partitions: true
 kernel: {repo: android_kernel_xiaomi_sdm710, version: '4.9'}
 maintainers: [SebaUbuntu]
 models: [M1903F2G, M1903F2A]
@@ -35,5 +34,5 @@ tree: android_device_xiaomi_grus
 type: phone
 vendor: Xiaomi
 vendor_short: xiaomi
-versions: [19.1, 20]
+versions: [19.1, 20, 21]
 wifi: 802.11 a/b/g/n/ac

@@ -15,19 +15,19 @@ gpu: Qualcomm Adreno 330
 image: klte.png
 install_method: odin
 kernel: {repo: android_kernel_samsung_msm8974, version: '3.4'}
-maintainers: [haggertk]
+maintainers: []
 models: [SM-G900AZ, SM-S902L]
 name: Galaxy S5 LTE (G900AZ/S902L)
 network: [2G GSM, 3G UMTS, 4G LTE]
 no_oem_unlock_switch: true
-peripherals: [Fingerprint reader, Heart rate sensor, Motion Coprocessor, Accelerometer, Gesture sensor, Gyroscope, Proximity sensor, Compass, Barometer, Hall effect sensor, RGB ambient light, Infrared sensor]
+peripherals: [Fingerprint reader, Heart rate sensor, Motion Coprocessor, Accelerometer, Gesture sensor, Gyroscope, Proximity sensor, Compass, Barometer, Hall effect sensor, RGB ambient light, IR blaster]
 quirks: [ims]
 ram: 2 GB
 recovery_boot: With the device powered off, hold <kbd>Volume Up</kbd> + <kbd>Home</kbd> + <kbd>Power</kbd>. When the blue text appears, release the buttons.
 recovery_partition_name: recovery
 release: 2014-04-11
 screen: {resolution: '1920x1080', size: 5.1, technology: 'Super AMOLED'}
-sdcard: {sizeMax: '128 GB'}
+sdcard: {size_max: '128 GB'}
 soc: Qualcomm MSM8974AC Snapdragon 801
 storage: 16 GB, 32 GB
 tree: android_device_samsung_klteaio

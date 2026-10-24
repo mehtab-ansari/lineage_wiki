@@ -31,6 +31,7 @@ These packages are only dependent on your OS version and architecture, which can
 
 |Version                   |Link                                                   |
 |--------------------------|-------------------------------------------------------|
+|LineageOS 21 (Android 14)|MindTheGapps ([ARM](https://github.com/MindTheGapps/14.0.0-arm/releases/latest), [ARM64](https://github.com/MindTheGapps/14.0.0-arm64/releases/latest))|
 |LineageOS 20 (Android 13)|MindTheGapps ([ARM](https://github.com/MindTheGapps/13.0.0-arm/releases/latest), [ARM64](https://github.com/MindTheGapps/13.0.0-arm64/releases/latest))|
 |LineageOS 19 (Android 12L)|MindTheGapps ([ARM](https://github.com/MindTheGapps/12.1.0-arm/releases/latest), [ARM64](https://github.com/MindTheGapps/12.1.0-arm64/releases/latest))|
 |LineageOS 18.1 (Android 11)|MindTheGapps ([ARM](https://github.com/MindTheGapps/11.0.0-arm/releases/latest), [ARM64](https://github.com/MindTheGapps/11.0.0-arm64/releases/latest))|
@@ -41,8 +42,17 @@ These packages are only dependent on your OS version and architecture, which can
 
 |Version                   |Link                                                   |
 |--------------------------|-------------------------------------------------------|
+|LineageOS 21 (Android 14)|MindTheGapps ([ARM](https://github.com/MindTheGapps/14.0.0-arm-ATV/releases/latest), [ARM64](https://github.com/MindTheGapps/14.0.0-arm64-ATV/releases/latest))|
 |LineageOS 20 (Android 13)|MindTheGapps ([ARM](https://github.com/MindTheGapps/13.0.0-arm-ATV/releases/latest), [ARM64](https://github.com/MindTheGapps/13.0.0-arm64-ATV/releases/latest))|
 |LineageOS 19 (Android 12L)|MindTheGapps ([ARM](https://github.com/MindTheGapps/12.1.0-arm-ATV/releases/latest), [ARM64](https://github.com/MindTheGapps/12.1.0-arm64-ATV/releases/latest))|
 |LineageOS 18.1 (Android 11)|MindTheGapps ([ARM](https://github.com/MindTheGapps/11.0.0-arm-ATV/releases/latest), [ARM64](https://github.com/MindTheGapps/11.0.0-arm64-ATV/releases/latest))|
 |Older versions|[See here]({{ "gapps/old" | relative_url }})|
 {: .table }
+
+#### (Android TV only) GApps Variants
+Android TV MindTheGapps packages have two variants `full` and `minimal`:
+
+* `full` includes the Google Android TV (note, not Google TV) launcher and recommendations applications.
+* `minimal` does not replace the included launcher or recommendations, by default LineageOS ATV builds utilize an Android 10 era non-GMS launcher.
+
+{% include alerts/note.html content="All shipping devices fit either of these packages, they only exist to provide users the option of opt-ing out of Google's launcher/recommendations." %}

@@ -113,6 +113,11 @@ a.anchorjs-link {
   }
 }
 
+img[src*='#center'] { 
+    display: block;
+    margin: auto;
+}
+
 // Toc
 #toc {
   background: #fafafa;
@@ -759,4 +764,9 @@ span.codename {
 
 .link-in-code {
   font-size: 87.5%;
+}
+
+.glossary::after {
+  font-family: "Material Icons";
+  content: 'help_outline';
 }

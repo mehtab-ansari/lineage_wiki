@@ -1,6 +1,11 @@
 {% assign device = site.data.devices[page.device] %}
 {% assign current_branch = device.current_branch %}
 
+
+<script src="{{ site.baseurl }}/assets/js/pagination.js{{ cacheBust }}"></script>
+
+<div id="paginated-content" markdown="1">
+
 {% if device.migrated_to and device.migrated_to != "" %}
 {% include templates/device_migrated_to.md %}
 {% endif %}
@@ -22,7 +27,9 @@ Do **not** continue after something fails!
 {%- endif %}
 5. Boot your device with the stock OS at least once and check every functionality.
 {%- if device.type == "phone" %}
+{%- unless device.quirks contains "ims" %}
     {% include alerts/warning.html content="Make sure that you can send and receive SMS and place and receive calls (also via WiFi and LTE, if available), otherwise it won't work on LineageOS either! Additionally, some devices require that VoLTE/VoWiFi be utilized once on stock to provision IMS." %}
+{%- endunless %}
 {%- endif %}
 6. LineageOS is provided as-is with no warranty. While we attempt to verify [everything works](https://github.com/LineageOS/charter/blob/main/device-support-requirements.md) you are installing this at your own risk!
 
@@ -41,34 +48,14 @@ The current bootloader version can be checked by running the command `getprop ro
 {% include alerts/warning.html content=bootloader %}
 {%- endif %}
 
-<script>
-$(function() {
-  if (window.location.hash.length === 0) {
-    toggleBlur()
-  }
-})
-
-function toggleBlur() {
-  $('#blurred').toggleClass('blurred')
-  $('#unblur').toggle()
-}
-</script>
-
-<div id="unblur" style="display: none;">
-  By clicking the following button you are confirming that you've met all of the basic requirements and read the warnings.<br/>
-  <button onclick="toggleBlur()" class="btn btn-primary">Show instructions</button>
-</div>
-
-<div id="blurred" markdown="1">
-
 {%- if device.before_install.instructions == "needs_specific_android_fw" %}
 ## Checking the correct firmware
 
-Installation on your device requires a specific firmware version to be installed before you continue.
+Installation on your device requires a specific [firmware]({{ "glossary/#firmware" | absolute_url }}){: .glossary} version to be installed before you continue.
 
 {%- if device.before_install.version %}
 - Firmware refers to a device-specific set of images that are included in, and updated by the stock OS
-- LineageOS builds for this device require a specific version of the stock OS to be installed prior to following the installation guide
+- LineageOS builds for this device require an Android {{ device.before_install.version }} version of the [stock OS]({{ "glossary/#stock-rom" | absolute_url }}){: .glossary} to be installed prior to following the installation guide
 - Please ensure that you are checking the **Android** version, and not the vendor OS version
 {%- endif %}
 - Being on another custom ROM, including unofficial builds of the same version of LineageOS, does not ensure that this requirement has been fulfilled
@@ -110,11 +97,10 @@ There are no recovery installation instructions for this discontinued device.
 {%- endif -%}
 
 {%- if device.maintainers != empty %}
-1. Download the [LineageOS installation package](https://download.lineageos.org/devices/{{ device.codename }}) that you would like to install or [build]({{ device | device_link: "/build" | relative_url }}) the package yourself.
+1. Download the [LineageOS zip file](https://download.lineageos.org/devices/{{ device.codename }}) that you would like to install or [build]({{ device | device_link: "/build" | relative_url }}) the package yourself.
 {%- else %}
 1. [Build]({{ device | device_link: "/build" | relative_url }}) a LineageOS installation package.
 {%- endif %}
-    * _(Optionally)_: If you want to install Google Apps add-on package (use the `{{ userspace_architecture }}` architecture), you can download it from [here]({{ "gapps" | relative_url }}).
 2. If you are not in recovery, reboot into recovery:
     * {{ device.recovery_boot }}
     {% if device.vendor == "LG" %}
@@ -134,32 +120,51 @@ There are no recovery installation instructions for this discontinued device.
 {%- else %}
 3. Now tap **Factory Reset**, then **Format data / factory reset** and continue with the formatting process. This will remove encryption and delete all files stored in the internal storage, as well as format your cache partition (if you have one).
 4. Return to the main menu.
+{%- if device.has_no_usb %}
+5. Copy the the LineageOS `.zip` package and any addons you wish to install to your device's removable SD card, then insert it in your device and install it, but **do not reboot** before you read/followed the rest of the instructions!:
+    * On the device, select "Apply Update", then "Apply from EXT_SDCARD", and select the LineageOS zip file to begin installation.
+    {% include alerts/warning.html content="EXT_SDCARD will reflect the name of your SD card's filesystem name." %}
+{%- else %}
 5. Sideload the LineageOS `.zip` package but **do not reboot** before you read/followed the rest of the instructions!
     * On the device, select "Apply Update", then "Apply from ADB" to begin sideload.
     * On the host machine, sideload the package using: `adb -d sideload filename.zip`.
+{%- endif %}
+{%- if current_branch >= 20 and device.is_ab_device %}
+        {% include alerts/specific/tip_ab_reboot_recovery.html %}
+{%- endif %}
+{%- if device.has_no_usb %}
+{%- else %}
         {% include alerts/specific/tip_adb_flash_success.html %}
-{%- if device.is_retrofit_dynamic_partitions and device.is_ab_device != true %}
-        {% include alerts/specific/note_retrofit_sideload_failed.html %}
 {%- endif %}
 {%- endif %}
 
 ## Installing Add-Ons
 
 {% include alerts/note.html content="If you don't want to install any add-on (such as Google Apps), you can skip this whole section!" %}
-{% if device.is_ab_device or device.uses_twrp != true %}
-  {% include alerts/specific/note_signature_check.html %}
-{%- endif %}
-{% include alerts/warning.html content="If you want the Google Apps add-on on your device, you must follow this step **before** booting into LineageOS for the first time!" %}
+
+{%- capture gapps_note %}
+If you want to install Google Apps add-on package (use the `{{ userspace_architecture }}` architecture), you can download it from [here]({{ "gapps" | relative_url }}).
+This add-on needs to be installed **before** booting into LineageOS for the first time!
+{%- endcapture %}
+{% include alerts/warning.html content=gapps_note %}
 
 {%- if device.is_ab_device and device.uses_twrp %}
 1. Even though you are already in recovery, run `adb -d reboot sideload`, then `adb -d sideload filename.zip` for all desired packages in sequence.
-{%- elsif device.is_ab_device %}
+{%- elsif device.is_ab_device and current_branch < 20 %}
 1. Even though you are already in recovery, click `Advanced`, then `Reboot to Recovery`
 2. When your device reboots, click `Apply Update`, then `Apply from ADB`, then `adb -d sideload filename.zip` for all desired packages in sequence.
 {%- elsif device.uses_twrp != true %}
+{%- if device.has_no_usb %}
+1. Click `Apply Update`, then `Apply Update from EXT_SDCARD`, then select the add-on zip file to begin installation, and repeat for all desired packages in sequence.
+    {% include alerts/warning.html content="EXT_SDCARD will reflect the name of your SD card's filesystem name." %}
+{%- else %}
 1. Click `Apply Update`, then `Apply from ADB`, then `adb -d sideload filename.zip` for all desired packages in sequence.
+{%- endif %}
 {%- else %}
 1. Repeat the sideload steps above for all desired packages in sequence.
+{%- endif %}
+{%- if device.is_ab_device or device.uses_twrp != true %}
+<br/>When presented with a screen that says `Signature verification failed`, click `Yes`. It is expected as add-ons aren't signed with LineageOS's official key!
 {%- endif %}
 
 ## All set!
@@ -183,9 +188,13 @@ If it takes longer, you may have missed a step, otherwise feel free to [get assi
 {% include alerts/specific/warning_recovery_app.html %}
 {% endif %}
 
+</div>
+
+<button class="btn btn-primary" style="display: none" onClick="previousPage()" id="previous-page">Previous step</button>
+<button class="btn btn-primary" style="display: none" onClick="nextPage()" id="next-page">Next step</button>
+
 ## Get assistance
 
 After you've double checked that you followed the steps precisely, didn't skip any and still have questions or got stuck, feel free to ask on [our subreddit](https://reddit.com/r/LineageOS) or in
-[#LineageOS on Libera.Chat](https://kiwiirc.com/nextclient/irc.libera.chat#lineageos).
+[#LineageOS on Libera.Chat](https://web.libera.chat/gamja/?channel=#lineageos).
 
-</div>

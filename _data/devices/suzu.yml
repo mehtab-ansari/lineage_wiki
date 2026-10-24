@@ -1,6 +1,6 @@
 architecture: arm64
 battery: {capacity: 2620, removable: False, tech: 'Li-Ion'}
-before_install: {instructions: 'needs_specific_android_fw', version: '8.0.0'}
+before_install: {instructions: 'needs_specific_android_fw', lineage_version: 18.1, version: '8.0.0'}
 bluetooth: {profiles: [A2DP + aptX], spec: '4.2'}
 cameras:
   - {flash: 'LED', info: '23 MP'}
@@ -26,7 +26,7 @@ recovery_boot: With the device powered off, hold <kbd>Volume Down</kbd> + <kbd>P
 recovery_partition_name: recovery
 release: 2016
 screen: {resolution: '1080x1920', size: 5, technology: 'IPS LCD'}
-sdcard: {sizeMax: '256 GB', slot: 'hybrid'}
+sdcard: {size_max: '256 GB', slot: 'hybrid'}
 soc: Qualcomm MSM8956 Snapdragon 650
 storage: 32/64 GB
 tree: android_device_sony_suzu

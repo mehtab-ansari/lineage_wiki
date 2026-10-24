@@ -1,6 +1,6 @@
 architecture: arm64
 battery: {capacity: 3300, removable: False, tech: 'Li-Po'}
-before_install: {instructions: 'needs_specific_android_fw', version: '9.0'}
+before_install: {instructions: 'needs_specific_android_fw', lineage_version: 20, version: '9.0'}
 bluetooth: {profiles: [A2DP + aptX HD], spec: '4.2'}
 cameras:
   - {flash: 'LED', info: '16 MP'}
@@ -16,12 +16,14 @@ download_boot: With the device powered off, hold <kbd>Volume Up</kbd> + <kbd>Pow
 gpu: Qualcomm Adreno 540
 image: v30.png
 install_method: dd
+is_unlockable: false
 kernel: {repo: android_kernel_lge_msm8998, version: '4.4'}
-maintainers: [lifehackerhansol, SGCMarkus]
+maintainers: []
+migrated_to: {codename: 'joan', version: 21}
 models: [H932]
 name: V30 (T-Mobile)
 network: [2G GSM, 3G UMTS, 4G LTE]
-peripherals: [Fingerprint reader, Accelerometer, Gyroscope, Proximity sensor, Compass, Barometer, Color spectrum sensor, Light sensor, GPS, IR blaster, Infrared sensor, Mobility DisplayPort (MyDP), NFC, USB OTG, FM radio, Dual SIM]
+peripherals: [Fingerprint reader, Accelerometer, Gyroscope, Proximity sensor, Compass, Barometer, Color spectrum sensor, Light sensor, GPS, Mobility DisplayPort (MyDP), NFC, USB OTG, FM radio]
 quirks: [fde, ims]
 ram: 4 GB
 recovery_boot: With the device powered off, hold <kbd>Volume Down</kbd> + <kbd>Power</kbd> until the LG logo appears, then release <kbd>Power</kbd> for a second and hold it again until the recovery comes up.
@@ -29,7 +31,7 @@ recovery_partition: /dev/block/bootdevice/by-name/recovery
 recovery_partition_name: recovery
 release: 2017-08
 screen: {resolution: '2880x1440', size: 6, technology: 'P-OLED'}
-sdcard: {sizeMax: '2 TB'}
+sdcard: {size_max: '2 TB'}
 soc: Qualcomm MSM8998 Snapdragon 835
 storage: 64 GB
 tree: android_device_lge_h932

@@ -23,6 +23,8 @@ The following branches have been tested for building emulator images:
 * lineage-17.1
 * lineage-18.1
 * lineage-19.1
+* lineage-20.0
+* lineage-21.0
 
 {% include snippets/branches.md %}
 {% include templates/device_build_init_sync.md %}
@@ -38,33 +40,44 @@ source build/envsetup.sh
 Select the build target by running the following command, where `<target>` is one of the entries in the table below:
 
 ```
-lunch <target>
+breakfast <target> eng
 ```
 
-|                               |              |  Build targets                 |  Supported `<arch>`                |
-|-------------------------------|--------------|--------------------------------|------------------------------------|
-| **LineageOS 17 and below**    |              |                                |                                    |
-|-------------------------------|--------------|--------------------------------|------------------------------------|
-| Phone                         | Emulator/GSI | `lineage_<arch>-eng`           | `arm`, `arm64`, `x86` and `x86_64` |
-|-------------------------------|--------------|--------------------------------|------------------------------------|
-| **LineageOS 18.1**            |              |                                |                                    |
-|-------------------------------|--------------|--------------------------------|------------------------------------|
-| Phone                         | Emulator/GSI | `lineage_<arch>-eng`           | `arm`, `arm64`, `x86` and `x86_64` |
-| TV                            | Emulator/GSI | `lineage_tv_<arch>-eng`        | `arm`, `arm64`, `x86` and `x86_64` |
-| Automotive                    | Emulator/GSI | `lineage_car_<arch>-eng`       | `arm64` and `x86_64`               |
-|-------------------------------|--------------|--------------------------------|------------------------------------|
-| **LineageOS 19 and above**    |              |                                |                                    |
-|-------------------------------|--------------|--------------------------------|------------------------------------|
-| Phone                         | Emulator     | `lineage_sdk_phone_<arch>-eng` | `x86` and `x86_64`                 |
-| Phone                         | GSI          | `lineage_gsi_<arch>-eng`       | `arm`, `arm64`, `x86` and `x86_64` |
-| TV                            | Emulator     | `lineage_sdk_tv_<arch>-eng`    | `arm` and `x86`                    |
-| TV                            | GSI          | `lineage_gsi_tv_<arch>-eng`    | `arm`, `arm64`, `x86` and `x86_64` |
-| Automotive                    | Emulator     | `lineage_sdk_car_<arch>-eng`   | `arm64` and `x86_64`               |
-| Automotive                    | GSI          | `lineage_gsi_car_<arch>-eng`   | `arm64` and `x86_64`               |
+|                               |              |  Build targets     |  Supported `<arch>`                |
+|-------------------------------|--------------|--------------------|------------------------------------|
+| **LineageOS 17 and below**    |              |                    |                                    |
+|-------------------------------|--------------|--------------------|------------------------------------|
+| Phone                         | Emulator/GSI | `<arch>`           | `arm`, `arm64`, `x86` and `x86_64` |
+|-------------------------------|--------------|--------------------|------------------------------------|
+| **LineageOS 18.1**            |              |                    |                                    |
+|-------------------------------|--------------|--------------------|------------------------------------|
+| Phone                         | Emulator/GSI | `<arch>`           | `arm`, `arm64`, `x86` and `x86_64` |
+| TV                            | Emulator/GSI | `tv_<arch>`        | `arm`, `arm64`, `x86` and `x86_64` |
+| Automotive                    | Emulator/GSI | `car_<arch>`       | `arm64` and `x86_64`               |
+|-------------------------------|--------------|--------------------|------------------------------------|
+| **LineageOS 19 and above**    |              |                    |                                    |
+|-------------------------------|--------------|--------------------|------------------------------------|
+| Phone                         | Emulator     | `sdk_phone_<arch>` | `x86` and `x86_64`                 |
+| Phone                         | GSI          | `gsi_<arch>`       | `arm`, `arm64`, `x86` and `x86_64` |
+| TV                            | Emulator     | `sdk_tv_<arch>`    | `arm` and `x86`                    |
+| TV                            | GSI          | `gsi_tv_<arch>`    | `arm`, `arm64`, `x86` and `x86_64` |
+| Automotive                    | Emulator     | `sdk_car_<arch>`   | `arm64` and `x86_64`               |
+| Automotive                    | GSI          | `gsi_car_<arch>`   | `arm64` and `x86_64`               |
+|-------------------------------|--------------|--------------------|------------------------------------|
+| **LineageOS 21 and above**    |              |                    |                                    |
+|-------------------------------|--------------|--------------------|------------------------------------|
+| Phone                         | Emulator     | `sdk_phone_<arch>` | `arm64` and `x86_64`               |
+| Phone                         | GSI          | `gsi_<arch>`       | `arm`, `arm64`, `x86` and `x86_64` |
+| TV                            | Emulator     | `sdk_tv_<arch>`    | `arm` and `x86`                    |
+| TV                            | GSI          | `gsi_tv_<arch>`    | `arm`, `arm64`, `x86` and `x86_64` |
+| Automotive                    | Emulator     | `sdk_car_<arch>`   | `arm64` and `x86_64`               |
+| Automotive                    | GSI          | `gsi_car_<arch>`   | `arm64` and `x86_64`               |
 {: .table }
 
 
 For starting, `x86` or `x86_64` is recommended, as your computer can run it natively using hardware acceleration.
+
+{% include alerts/tip.html content="If you're running an ARM computer such as an Apple Silicon Mac, you should choose `arm64` for supported LineageOS Versions.<br> This will significanly improve the emulator performance compared to using `x86_64` builds via a translation layer such as Rosetta 2." %}
 
 Instead of `eng` one can also target `userdebug`, the latter is used by official AOSP emulator images, but ADB and communication with the emulator will need to be enabled first.
 
@@ -112,4 +125,4 @@ As long as you **haven't** moved the folder directly into `system-images`, the e
 
 ## To get assistance
 
-* [#LineageOS-dev](https://kiwiirc.com/nextclient/irc.libera.chat#lineageos-dev) - A helpful, real-time chat room (or "channel"), on the Libera.Chat [IRC](https://en.wikipedia.org/wiki/Internet_Relay_Chat) network.
+* [#LineageOS-dev](https://web.libera.chat/gamja/?channel=#lineageos-dev) - A helpful, real-time chat room (or "channel"), on the Libera.Chat [IRC](https://en.wikipedia.org/wiki/Internet_Relay_Chat) network.

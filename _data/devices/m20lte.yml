@@ -1,6 +1,6 @@
 architecture: arm64
 battery: {capacity: 5000, removable: False, tech: 'Li-Po'}
-before_install: {instructions: 'needs_specific_android_fw', version: '10'}
+before_install: {instructions: 'needs_specific_android_fw', lineage_version: 18.1, version: '10'}
 before_recovery_install: samsung_universal7904
 bluetooth: {profiles: [A2DP], spec: '5'}
 cameras:
@@ -29,7 +29,7 @@ recovery_boot: With the device powered off, hold <kbd>Volume Up</kbd> + <kbd>Pow
 recovery_partition_name: recovery
 release: 2019-01-28
 screen: {resolution: '2340x1080', size: 6.3, technology: 'PLS LCD'}
-sdcard: {sizeMax: '512 GB'}
+sdcard: {size_max: '512 GB'}
 soc: Samsung Exynos 7904
 storage: 32/64 GB
 tree: android_device_samsung_m20lte

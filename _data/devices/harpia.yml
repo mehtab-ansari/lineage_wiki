@@ -1,6 +1,6 @@
 architecture: arm
 battery: {capacity: 2800, removable: True, tech: 'Li-Ion'}
-before_install: {instructions: 'needs_specific_android_fw', version: '7.1.1'}
+before_install: {instructions: 'needs_specific_android_fw', lineage_version: 14.1, version: '7.1.1'}
 bluetooth: {profiles: [A2DP], spec: '4.1'}
 cameras:
   - {flash: 'LED', info: '8 MP'}
@@ -28,7 +28,7 @@ recovery_partition_name: recovery
 recovery_reboot: fastboot_menu
 release: 2016-05
 screen: {resolution: '720x1280', size: 5, technology: 'IPS LCD'}
-sdcard: {sizeMax: '128 GB'}
+sdcard: {size_max: '128 GB'}
 soc: Qualcomm MSM8916 Snapdragon 410
 storage: 16 GB
 tree: android_device_motorola_harpia

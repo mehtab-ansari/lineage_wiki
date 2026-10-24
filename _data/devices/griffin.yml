@@ -15,7 +15,7 @@ gpu: Qualcomm Adreno 530
 image: griffin.png
 install_method: fastboot_motorola
 kernel: {repo: android_kernel_motorola_msm8996, version: '3.18'}
-maintainers: [erfanoabdi, npjohnson]
+maintainers: []
 models: [XT1650-03, XT1650-05]
 name: moto z
 network: [2G GSM, 2G CDMA, 3G UMTS, 4G LTE]
@@ -25,7 +25,7 @@ recovery_boot: With the device powered off, hold <kbd>Volume Up</kbd> + <kbd>Pow
 recovery_partition_name: recovery
 release: 2016-09
 screen: {resolution: '2560x1440', size: 5.5, technology: 'AMOLED'}
-sdcard: {sizeMax: '2 TB'}
+sdcard: {size_max: '2 TB'}
 soc: Qualcomm MSM8996 Snapdragon 820
 storage: 32/64 GB
 tree: android_device_motorola_griffin
